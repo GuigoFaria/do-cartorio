@@ -6,6 +6,7 @@ import com.docartorio.repository.CartorioRepository;
 import com.docartorio.repository.CertidaoRepository;
 import com.docartorio.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +43,32 @@ public class CartorioRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cartorio>> findAllCartorios(){
+    public ResponseEntity<List<Cartorio>> findAllCartorios() {
         List<Cartorio> cartorioList = cartorioRepository.findAll();
         return ResponseEntity.ok(cartorioList);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Cartorio> atualizar(@PathVariable Long id, @RequestBody CartorioForm cartorioForm) {
+        Optional<Cartorio> optional = cartorioRepository.findById(id);
+        if (optional.isPresent()) {
+            Cartorio cartorio = cartorioForm.update(id,cartorioRepository,enderecoRepository,certidaoRepository);
+            return ResponseEntity.ok(cartorio);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> remover(@PathVariable Long id) {
+        Optional<Cartorio> optional = cartorioRepository.findById(id);
+        if (optional.isPresent()) {
+            cartorioRepository.deleteById(id);
+            enderecoRepository.deleteById(optional.get().getEndereco().getId());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

@@ -31,6 +31,10 @@ public class Endereco {
     public Endereco() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getEstado() {
         return estado;
     }
