@@ -40,5 +40,10 @@ public class CartorioRestController {
         URI uri = uriBuilder.path("/cartorio/{id}").buildAndExpand(cartorio.getId()).toUri();
         return ResponseEntity.created(uri).body(cartorio);
     }
-    
+
+    @GetMapping
+    public ResponseEntity<List<Cartorio>> findAllCartorios(){
+        List<Cartorio> cartorioList = cartorioRepository.findAll();
+        return ResponseEntity.ok(cartorioList);
+    }
 }
