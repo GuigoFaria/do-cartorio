@@ -58,6 +58,41 @@ public class CartorioForm {
         this.complemento = complemento;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public List<String> getNomesCertidao() {
+        return nomesCertidao;
+    }
 
     public Cartorio convert(CartorioRepository cartorioRepository, CertidaoRepository certidaoRepository) {
         List<Certidao> certidaoList = verifyCertidao(certidaoRepository);

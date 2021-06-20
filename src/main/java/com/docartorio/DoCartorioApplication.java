@@ -14,9 +14,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableSpringDataWebSupport
 public class DoCartorioApplication {
 	@Bean
-	public WebClient webClient (WebClient.Builder builder){
+	public WebClient webClientCartorio (WebClient.Builder builder){
 		return builder.
 				baseUrl("http://localhost:8080/")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.build();
+
+	}
+
+	@Bean
+	public WebClient webClientCertidao (WebClient.Builder builder){
+		return builder.
+				baseUrl("https://docketdesafiobackend.herokuapp.com/")
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.build();
 

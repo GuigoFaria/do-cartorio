@@ -24,8 +24,10 @@
         <tr th:each="cartorio : ${cartoriosList}">
             <td th:text="${cartorio.nome}"></td>
             <td th:text="${cartorio.endereco.rua}"></td>
-            <td th:each="certidao : ${cartorio.certidaoList}">
-                <p th:text="${certidao.nome}"></p>
+            <td>
+                <div  th:each="certidao : ${cartorio.certidaoList}">
+                    <p th:text="${certidao.nome}"></p>
+                </div>
             </td>
             <td>
                 <a th:href="@{/rh/pessoas/{id}(id=${cartorio.id})}" class="btn btn-primary">Alterar</a>
