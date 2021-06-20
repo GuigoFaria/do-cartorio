@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     private String rua;
     private String numero;
     private String cep;
@@ -18,5 +18,44 @@ public class Endereco {
     private String estado;
     private String complemento;
 
+    public Endereco(String rua, String numero, String cep, String bairro, String cidade, String estado, String complemento) {
+        this.rua = rua;
+        this.numero = numero;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.complemento = complemento;
+    }
 
+    public Endereco() {
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
 }

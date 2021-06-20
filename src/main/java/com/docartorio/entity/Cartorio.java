@@ -7,20 +7,23 @@ import java.util.UUID;
 public class Cartorio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private Long id;
     private String nome;
     @OneToOne(fetch = FetchType.EAGER)
     private Endereco endereco;
     @ManyToMany
-    private List<CertidaoDto> certidaoDtoList;
+    private List<Certidao> certidaoList;
 
-    public Cartorio(String nome, Endereco endereco, List<CertidaoDto> certidaoDtoList) {
+    public Cartorio(String nome, Endereco endereco, List<Certidao> certidaoList) {
         this.nome = nome;
         this.endereco = endereco;
-        this.certidaoDtoList = certidaoDtoList;
+        this.certidaoList = certidaoList;
     }
 
-    public UUID getId() {
+    public Cartorio() {
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -40,11 +43,11 @@ public class Cartorio {
         this.endereco = endereco;
     }
 
-    public List<CertidaoDto> getCertidaoDtoList() {
-        return certidaoDtoList;
+    public List<Certidao> getCertidaoList() {
+        return certidaoList;
     }
 
-    public void setCertidaoDtoList(List<CertidaoDto> certidaoDtoList) {
-        this.certidaoDtoList = certidaoDtoList;
+    public void setCertidaoList(List<Certidao> certidaoList) {
+        this.certidaoList = certidaoList;
     }
 }
