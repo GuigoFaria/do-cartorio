@@ -48,12 +48,22 @@ public class CartorioRestController {
         return ResponseEntity.ok(cartorioList);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Cartorio> detalhar(@PathVariable Long id) {
+        Optional<Cartorio> cartorio = cartorioRepository.findById(id);
+        if (cartorio.isPresent()) {
+            return ResponseEntity.ok(cartorio.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<Cartorio> atualizar(@PathVariable Long id, @RequestBody CartorioForm cartorioForm) {
         Optional<Cartorio> optional = cartorioRepository.findById(id);
         if (optional.isPresent()) {
-            Cartorio cartorio = cartorioForm.update(id,cartorioRepository,enderecoRepository,certidaoRepository);
+            Cartorio cartorio = cartorioForm.update(id, cartorioRepository, enderecoRepository, certidaoRepository);
             return ResponseEntity.ok(cartorio);
         }
 

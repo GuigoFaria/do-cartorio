@@ -23,15 +23,20 @@
         <tbody>
         <tr th:each="cartorio : ${cartoriosList}">
             <td th:text="${cartorio.nome}"></td>
-            <td th:text="${cartorio.endereco.rua}"></td>
             <td>
-                <div  th:each="certidao : ${cartorio.certidaoList}">
+                <p th:text="'Rua: '+ ${cartorio.endereco.rua}"></p>
+                <p th:text="'Bairro: ' + ${cartorio.endereco.bairro}"></p>
+                <p th:text="'Cidade: ' + ${cartorio.endereco.cidade}"></p>
+                <p th:text="'Número: ' + ${cartorio.endereco.numero}"></p>
+            </td>
+            <td>
+                <div th:each="certidao : ${cartorio.certidaoList}">
                     <p th:text="${certidao.nome}"></p>
                 </div>
             </td>
             <td>
-                <a th:href="@{/rh/pessoas/{id}(id=${cartorio.id})}" class="btn btn-primary">Alterar</a>
-                <a th:href="@{/rh/pessoas/excluir/{id}(id=${cartorio.id})}" class="btn btn-danger">Excluir</a>
+                <a th:href="@{/site/cartorios/atualizar/{id}(id=${cartorio.id})}" class="btn btn-primary">Alterar</a>
+                <a th:href="@{/site/cartorios/excluir/{id}(id=${cartorio.id})}" class="btn btn-danger">Excluir</a>
             </td>
         </tr>
         </tbody>

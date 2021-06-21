@@ -8,10 +8,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -69,7 +66,7 @@ public class CartorioSiteController {
     @PostMapping("/salvar")
     public String saveCartorio(@ModelAttribute("cartorioForm") CartorioForm cartorioForm){
         Mono<Cartorio> cartorioMono = this.webClientCartorio
-                .method(HttpMethod.POST)
+                .post()
                 .uri("/cartorio")
                 .body(BodyInserters.fromValue(cartorioForm))
                 .retrieve()
@@ -77,6 +74,57 @@ public class CartorioSiteController {
 
         Cartorio cartorio = cartorioMono.block();
         return "redirect:/site/cartorios";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateCartorio(@ModelAttribute("cartorioForm") CartorioForm cartorioForm, @PathVariable Long id){
+        Mono<Cartorio> cartorioMono = this.webClientCartorio
+                .put()
+                .uri("/cartorio/{id}", id)
+                .body(BodyInserters.fromValue(cartorioForm))
+                .retrieve()
+                .bodyToMono(Cartorio.class);
+
+        Cartorio cartorio = cartorioMono.block();
+        return "redirect:/site/cartorios";
+    }
+
+    @GetMapping("/excluir/{id}")
+    public String deleteCartorio(@PathVariable Long id){
+        Mono<Cartorio> cartorioMono = this.webClientCartorio
+                .delete()
+                .uri("/cartorio/{id}",id)
+                .retrieve()
+                .bodyToMono(Cartorio.class);
+
+        cartorioMono.block();
+        return "redirect:/site/cartorios";
+    }
+
+    @GetMapping("/atualizar/{id}")
+    public String atualizarCartorio(@ModelAttribute("cartorioForm") CartorioForm cartorioForm, Model model, @PathVariable Long id){
+        Mono<Certidao[]> listMono = this.webClientCertidao
+                .get()
+                .uri("/api/v1/certidoes")
+                .retrieve()
+                .bodyToMono(Certidao[].class);
+        Mono<Cartorio> cartorioMono = this.webClientCartorio
+                .get()
+                .uri("/cartorio/{id}",id)
+                .retrieve()
+                .bodyToMono(Cartorio.class);
+
+        Certidao[] certidaoList = listMono.block();
+        Cartorio cartorio = cartorioMono.block();
+        List<String> certidaoStringList = new ArrayList<>();
+        cartorioForm = cartorioForm.convertCartorio(cartorio);
+
+        for (Certidao certidao : certidaoList) {
+            certidaoStringList.add(certidao.getNome());
+        }
+        model.addAttribute("certidaoList", certidaoStringList);
+        model.addAttribute("id", id);
+        return "site/cartorios/formulario";
     }
 
 }

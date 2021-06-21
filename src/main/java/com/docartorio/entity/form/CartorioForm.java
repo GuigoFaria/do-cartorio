@@ -119,6 +119,20 @@ public class CartorioForm {
         return cartorio;
     }
 
+    public CartorioForm convertCartorio(Cartorio cartorio){
+        CartorioForm cartorioForm = new CartorioForm();
+        cartorioForm.setNome(cartorio.getNome());
+        cartorioForm.setRua(cartorio.getEndereco().getRua());
+        cartorioForm.setBairro(cartorio.getEndereco().getBairro());
+        cartorioForm.setCep(cartorio.getEndereco().getCep());
+        cartorioForm.setCidade(cartorio.getEndereco().getCidade());
+        cartorioForm.setComplemento(cartorio.getEndereco().getComplemento());
+        cartorioForm.setEstado(cartorio.getEndereco().getEstado());
+        cartorioForm.setNumero(cartorio.getEndereco().getNumero());
+
+        return cartorioForm;
+    }
+
     private List<Certidao> verifyCertidao(CertidaoRepository certidaoRepository) {
         List<Certidao> certidaoList = new ArrayList<>();
         this.nomesCertidao.forEach(nome -> {
